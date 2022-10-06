@@ -1,3 +1,15 @@
+"""
+### Tutorial DAG for Airflow connections Using the HTTP and GitHub provider
+
+Use the GithubTagSensor to wait for a tag to be added to a GitHub repository saved
+in the variable `my_github_repo`.
+Once this first task succeeds the SimpleHttpOperator will query an API defined 
+in an HTTP connection with the connection ID `my_http_connection`. 
+
+This DAG's purpose is to show how to set up connections and variables in
+the Get Started with Airflow - Part 2 tutorial.
+"""
+
 from airflow import DAG
 from airflow.models import Variable
 from airflow.providers.http.operators.http import SimpleHttpOperator
