@@ -1,5 +1,5 @@
 """
-### Tutorial DAG for Airflow connections Using the HTTP and GitHub provider
+### Tutorial DAG for Airflow connections using the HTTP and GitHub provider
 
 Use the GithubTagSensor to wait for a tag to be added to a GitHub repository saved
 in the variable `my_github_repo`.
@@ -10,33 +10,37 @@ This DAG's purpose is to show how to set up connections and variables in
 the Get Started with Airflow - Part 2 tutorial.
 """
 
-from airflow import DAG
+from airflow.decorators import dag
 from airflow.models import Variable
 from airflow.providers.http.operators.http import SimpleHttpOperator
 from airflow.providers.github.sensors.github import GithubTagSensor
-from datetime import datetime
+from pendulum import datetime
 
-with DAG(
-    dag_id="my_second_dag",
-    start_date=datetime(2022, 9, 1),
+
+@dag(
+    start_date=datetime(2023, 7, 1),
     schedule="0 9 * * *",
-    catchup=False
-):
-
+    catchup=False,
+    tags=["connections"],
+)
+def my_second_dag():
     tag_sensor = GithubTagSensor(
-        task_id='tag_sensor',
+        task_id="tag_sensor",
         github_conn_id="my_github_connection",
-        tag_name='v1.0',
+        tag_name="v1.0",
         repository_name=Variable.get("my_github_repo"),
-        timeout=60*60*24,
-        poke_interval=30
+        timeout=60 * 60 * 24,
+        poke_interval=30,
     )
 
     query_API = SimpleHttpOperator(
         task_id="query_API",
         http_conn_id="my_http_connection",
         method="GET",
-        log_response=True
+        log_response=True,
     )
 
     tag_sensor >> query_API
+
+
+my_second_dag()
