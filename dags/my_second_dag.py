@@ -27,8 +27,8 @@ def my_second_dag():
     tag_sensor = GithubTagSensor(
         task_id="tag_sensor",
         github_conn_id="my_github_connection",
-        tag_name="v1.0",
-        repository_name=Variable.get("my_github_repo"),
+        tag_name="my_awesome_tag",
+        repository_name=Variable.get("my_github_repo", "apache/airflow"),
         timeout=60 * 60 * 24,
         poke_interval=30,
     )
