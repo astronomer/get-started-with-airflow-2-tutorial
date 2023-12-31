@@ -2,4 +2,4 @@
 .env
 airflow_settings.yaml
 astro
-__pychache__ 
+__pycache__/

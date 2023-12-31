@@ -18,10 +18,10 @@ from pendulum import datetime
 
 
 @dag(
-    start_date=datetime(2023, 7, 1),
+    start_date=datetime(2023, 12, 19),
     schedule="0 9 * * *",
     catchup=False,
-    tags=["connections"],
+    tags=["connections", "Tutorial Part 2"],
 )
 def my_second_dag():
     tag_sensor = GithubTagSensor(
